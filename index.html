@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>استوديو التصميم التفاعلي | 3D Studio</title>
+  
+  <!-- محرك العرض ثلاثي الأبعاد والواقع المعزز من Google -->
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #0b0f19;
+      color: #f8fafc;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    /* رأس الصفحة */
+    header {
+      padding: 12px 20px;
+      background: rgba(15, 23, 42, 0.95);
+      border-bottom: 1px solid #1e293b;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+    }
+
+    header h1 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #38bdf8;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      background: #0369a1;
+      padding: 4px 10px;
+      border-radius: 12px;
+      color: #ffffff;
+    }
+
+    /* مساحة عرض الـ 3D */
+    .viewer-container {
+      flex: 1;
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    model-viewer {
+      width: 100%;
+      height: 100%;
+      background-color: #0b0f19;
+      --poster-color: transparent;
+    }
+
+    /* لوحة التحكم السفلية */
+    .controls-panel {
+      position: absolute;
+      bottom: 25px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 10px 18px;
+      border-radius: 30px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      z-index: 10;
+    }
+
+    .control-label {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      white-space: nowrap;
+    }
+
+    .color-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 2px solid #334155;
+      cursor: pointer;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .color-btn:hover, .color-btn:active {
+      transform: scale(1.15);
+      border-color: #38bdf8;
+    }
+
+    .c-walnut { background-color: #5c4033; }
+    .c-beige { background-color: #d1c7bd; }
+    .c-dark { background-color: #1e1e1e; }
+    .c-white { background-color: #f8fafc; }
+
+    /* زر الواقع المعزز (AR) */
+    .ar-button {
+      background-color: #0284c7;
+      border-radius: 8px;
+      border: none;
+      color: white;
+      padding: 8px 14px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      z-index: 5;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>معاينة التصميم التفاعلية ثلاثية الأبعاد</h1>
+    <span class="badge">دقة حية 3D</span>
+  </header>
+
+  <div class="viewer-container">
+    <model-viewer id="modelViewer"
+                  src="https://modelviewer.dev/shared-assets/models/Chair.glb"
+                  alt="تصميم ثلاثي الأبعاد"
+                  auto-rotate
+                  camera-controls
+                  touch-action="pan-y"
+                  shadow-intensity="1.5"
+                  exposure="1"
+                  ar>
+      <button slot="ar-button" class="ar-button">
+        📱 تجربة في غرفتك (AR)
+      </button>
+    </model-viewer>
+
+    <div class="controls-panel">
+      <span class="control-label">تغيير الخامة:</span>
+      <button class="color-btn c-walnut" title="خشب جوزي" onclick="applyColor('#5c4033')"></button>
+      <button class="color-btn c-beige" title="بيج مودرن" onclick="applyColor('#d1c7bd')"></button>
+      <button class="color-btn c-dark" title="بني داكن" onclick="applyColor('#1e1e1e')"></button>
+      <button class="color-btn c-white" title="أبيض مطفي" onclick="applyColor('#f8fafc')"></button>
+    </div>
+  </div>
+
+  <script>
+    const viewer = document.querySelector('#modelViewer');
+
+    async function applyColor(hexColor) {
+      if (!viewer.model) return;
+      const materials = viewer.model.materials;
+      materials.forEach(mat => {
+        mat.pbrMetallicRoughness.setBaseColorFactor(hexColor);
+      });
+    }
+  </script>
+</body>
+                                                                                            </html>
+                                                                                            
